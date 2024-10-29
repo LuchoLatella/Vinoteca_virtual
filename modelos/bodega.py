@@ -1,5 +1,5 @@
 # archivo: modelos/bodega.py
-from entidadvineria import EntidadVineria
+from modelos.entidadvineria import EntidadVineria
 from servicios.vinoteca import Vinoteca
 
 class Bodega(EntidadVineria):

@@ -1,0 +1,14 @@
+{
+    "bodegas": [
+        {"id": 1, "nombre": "Bodega A"},
+        {"id": 2, "nombre": "Bodega B"}
+    ],
+    "cepas": [
+        {"id": 1, "nombre": "Cepa A"},
+        {"id": 2, "nombre": "Cepa B"}
+    ],
+    "vinos": [
+        {"id": 1, "nombre": "Vino A", "bodega": 1, "cepas": [1, 2], "partidas": 50},
+        {"id": 2, "nombre": "Vino B", "bodega": 2, "cepas": [2], "partidas": 30}
+    ]
+}

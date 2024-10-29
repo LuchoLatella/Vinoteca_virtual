@@ -1,4 +1,7 @@
-# archivo: app.py
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from flask import Flask, jsonify, request
 from servicios.vinoteca import Vinoteca
 
@@ -16,8 +19,6 @@ def listar_bodegas():
 def obtener_bodega(id):
     bodega = Vinoteca.buscarBodega(id)
     return jsonify(bodega.convertirAJSON()) if bodega else ("Bodega no encontrada", 404)
-
-# Rutas para /api/cepas y /api/vinos se implementan similarmente
 
 if __name__ == "__main__":
     app.run(debug=True)

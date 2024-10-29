@@ -1,8 +1,4 @@
-# archivo: servicios/vinoteca.py
 import json
-from modelos.bodega import Bodega
-from modelos.cepa import Cepa
-from modelos.vino import Vino
 
 class Vinoteca:
     archivoDeDatos = "data/vinoteca.json"
@@ -22,6 +18,9 @@ class Vinoteca:
 
     @classmethod
     def __convertirJsonAListas(cls, datos):
+        from modelos.bodega import Bodega
+        from modelos.cepa import Cepa
+        from modelos.vino import Vino
         cls.bodegas = [Bodega(**bodega) for bodega in datos['bodegas']]
         cls.cepas = [Cepa(**cepa) for cepa in datos['cepas']]
         cls.vinos = [Vino(**vino) for vino in datos['vinos']]
@@ -33,3 +32,11 @@ class Vinoteca:
     @classmethod
     def buscarBodega(cls, id):
         return next((bodega for bodega in cls.bodegas if bodega.id == id), None)
+
+    @classmethod
+    def obtenerVinos(cls):
+        return cls.vinos
+
+    @classmethod
+    def buscarCepa(cls, id):
+        return next((cepa for cepa in cls.cepas if cepa.id == id), None)
