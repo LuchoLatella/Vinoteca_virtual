@@ -1,61 +1,42 @@
-# librerias
-import os
 import json
-
-# modelos
 from modelos.bodega import Bodega
 from modelos.cepa import Cepa
 from modelos.vino import Vino
 
-
 class Vinoteca:
+    archivoDeDatos = "data/vinoteca.json"
+    bodegas = []
+    cepas = []
+    vinos = []
 
-    __archivoDeDatos = "vinoteca.json"
-    __bodegas = []
-    __cepas = []
-    __vinos = []
+    @classmethod
+    def inicializar(cls):
+        datos = cls.__parsearArchivoDeDatos()
+        cls.__convertirJsonAListas(datos)
 
-    def inicializar():
-        datos = Vinoteca.__parsearArchivoDeDatos()
-        Vinoteca.__convertirJsonAListas(datos)
+    @classmethod
+    def __parsearArchivoDeDatos(cls):
+        with open(cls.archivoDeDatos, 'r') as archivo:
+            return json.load(archivo)
 
-    def obtenerBodegas(orden=None, reverso=False):
-        if isinstance(orden, str):
-            if orden == "nombre":
-                pass  # completar
-            elif orden == "vinos":
-                pass  # completar
-        pass  # completar
+    @classmethod
+    def __convertirJsonAListas(cls, datos):
+        cls.bodegas = [Bodega(**b) for b in datos['bodegas']]
+        cls.cepas = [Cepa(**c) for c in datos['cepas']]
+        cls.vinos = [Vino(**v) for v in datos['vinos']]
 
-    def obtenerCepas(orden=None, reverso=False):
-        if isinstance(orden, str):
-            if orden == "nombre":
-                pass  # completar
-        pass  # completar
+    @classmethod
+    def obtenerBodegas(cls, orden=None, reverso=False):
+        return sorted(cls.bodegas, key=lambda x: getattr(x, orden), reverse=reverso) if orden else cls.bodegas
 
-    def obtenerVinos(anio=None, orden=None, reverso=False):
-        if isinstance(anio, int):
-            pass  # completar
-        if isinstance(orden, str):
-            if orden == "nombre":
-                pass  # completar
-            elif orden == "bodega":
-                pass  # completar
-            elif orden == "cepas":
-                pass  # completar
-        pass  # completar
+    @classmethod
+    def buscarBodega(cls, id):
+        return next((b for b in cls.bodegas if b.id == id), None)
 
-    def buscarBodega(id):
-        pass  # completar
+    @classmethod
+    def buscarCepa(cls, id):
+        return next((c for c in cls.cepas if c.id == id), None)
 
-    def buscarCepa(id):
-        pass  # completar
-
-    def buscarVino(id):
-        pass  # completar
-
-    def __parsearArchivoDeDatos():
-        pass  # completar
-
-    def __convertirJsonAListas(lista):
-        pass  # completar
+    @classmethod
+    def buscarVino(cls, id):
+        return next((v for v in cls.vinos if v.id == id), None)
