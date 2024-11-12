@@ -1,10 +1,32 @@
-# archivo: modelos/cepa.py
-from .entidadvineria import EntidadVineria
-from servicios.vinoteca import Vinoteca
+import json
 
-class Cepa(EntidadVineria):
-    def obtenerVinos(self):
-        return [vino for vino in Vinoteca.obtenerVinos() if self.id in vino.cepas]
+
+class Cepa:
+
+    def __repr__(self):
+        return json.dumps({"nombre": self.obtenerNombre()})
 
     def convertirAJSON(self):
-        return {"id": self.id, "nombre": self.nombre, "vinos": [f"{vino.nombre} ({Vinoteca.buscarBodega(vino.bodega).nombre})" for vino in self.obtenerVinos()]}
+        return {
+            "id": self.obtenerId(),
+            "nombre": self.obtenerNombre(),
+            "vinos": len(self.obtenerVinos()),
+        }
+
+    def convertirAJSONFull(self):
+        return {
+            "id": self.obtenerId(),
+            "nombre": self.obtenerNombre(),
+            "vinos": self.__mapearVinos(),
+        }
+
+    def __mapearVinos(self):
+        vinos = self.obtenerVinos()
+        vinosMapa = map(
+            lambda a: a.obtenerNombre()
+            + " ("
+            + a.obtenerBodega().obtenerNombre()
+            + ")",
+            vinos,
+        )
+        return list(vinosMapa)
